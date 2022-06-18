@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -25,13 +26,16 @@ public class User implements UserDetails{
     private String username;
     @Column
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Role> roles;
 
-    public User(String name, String lastName, int age) {
+    public User(String name, String lastName, int age, String username, String password, Set<Role> roles) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     public Set<Role> getRoles() {
@@ -77,6 +81,7 @@ public class User implements UserDetails{
         return username;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
@@ -110,5 +115,9 @@ public class User implements UserDetails{
     @Override
     public String toString() {
         return name+" "+lastName;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

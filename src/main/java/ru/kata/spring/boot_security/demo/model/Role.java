@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,7 @@ public class Role implements GrantedAuthority {
     private Long id;
     @Column
     private String role;
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles",cascade = CascadeType.ALL)
     private Set<User> users;
 
     public Long getId() {
@@ -34,8 +35,24 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
+    public Role(Long id, String role) {
+        this.id = id;
+        this.role = role;
+    }
+
+    public Role() {
+    }
+
     @Override
     public String getAuthority() {
         return getRole();
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

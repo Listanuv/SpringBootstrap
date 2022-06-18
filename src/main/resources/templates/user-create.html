@@ -17,7 +17,13 @@
   <input type="text" th:field="*{username}" id="username" placeholder="Username">
   <label for="password">Password</label>
   <input type="text" th:field="*{password}" id="password" placeholder="Password">
+  <select class="form-control" id="listRole" name="listRole">
+    <option value="0">select operator</option>
+    <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getRole()}"></option>
+  </select>
+  <div class="container">
   <input type="submit" value="Create User">
+  </div>
 </form>
 </body>
 </html>
