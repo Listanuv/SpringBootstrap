@@ -1,32 +1,124 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Spring Security Example</title>
+    <div>
+        <nav class="navbar sticky-top navbar-dark bg-dark">
+            <div class="container-fluid">
+                <h5 class="text-white"><span th:text="${user.getUsername()}"></span> with roles: <span th:text="${user.getRole()}"></span></h5>
+                <ul class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="javascript: document.logoutForm.submit()">Logout</a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out" />
+                    </form>
+                </ul>
+            </div>
+        </nav>
+    </div>
 </head>
+
+<style type="text/css">
+    .row{
+        background: white;
+    }
+    .col-md-2{
+        background: white;
+        height: 987px;
+    }
+    .table{
+        width: 100%;
+        background: white;
+    }
+    .col-md-8{
+        position: relative;
+        top: 50px;
+        left: 50px;
+        height: 100%;
+    }
+    #newUser{
+        background: white;
+    }
+    #tabs-397422{
+        width: 120%;
+    }
+    #test{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #btnCreate{
+        margin:auto;
+        display:block;
+        width:10%;
+    }
+    body{
+        background: whitesmoke;
+    }
+</style>
+
+
+
 <body>
-<h2>Users</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Age</th>
-    </tr>
-    </thead>
-    <tbody>
-        <td th:text="${user.getId()}"></td>
-        <td th:text="${user.getName()}"></td>
-        <td th:text="${user.getLastName()}"></td>
-        <td th:text="${user.getAge()}"></td>
-    </tr>
-    </tbody>
-</table>
-<div sec:authorize="isAuthenticated()">
-    <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
-    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-        <input hidden type="submit" value="Sign Out" />
-    </form>
+
+<div class="container-fluid">
+    <div class="row" th:style="'background: whitesmoke'">
+        <div class="col-md-2">
+            <ul class="nav flex-column nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/user">User</a>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="col-md-8">
+            <div class="tabbable" id="tabs-397422">
+                <h2 th:style="'background: whitesmoke'">User</h2>
+                <ul class="nav nav-tabs">
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="list">
+                        <table class="table">
+                            <h4 th:style="'background:whitesmoke'">About user</h4>
+                            <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">First name</th>
+                                <th scope="col">Last name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Role</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td th:text="${user.getId()}"></td>
+                                <td th:text="${user.getName()}"></td>
+                                <td th:text="${user.getLastName()}"></td>
+                                <td th:text="${user.getAge()}"></td>
+                                <td th:text="${user.getUsername()}"></td>
+                                <td th:text="${user.getRole()}"></td>
+
+                            </tr>
+                            </tbody>
+                        </table >
+                    </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

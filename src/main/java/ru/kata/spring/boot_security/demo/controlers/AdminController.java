@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controlers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,21 @@ public class AdminController {
     @Autowired
     private UserDAO userService;
     @Autowired
-    private RoleDAOImpl roleDAO;
+    private RoleDAO roleDAO;
 
     @GetMapping("/admin")
-    public String getAllUsers(Model model){
+    public String getAllUsers(User user, Model model, Authentication authentication){
+        User currentUser= (User) authentication.getPrincipal();
         model.addAttribute("admin", userService.findAll());
+        model.addAttribute("currentUser",currentUser);
+        model.addAttribute("roles",roleDAO.findAllRole());
         return "admin";
+    }
+    @PostMapping("/admin")
+    public String createUser(@RequestParam("listRole")Long id, User user){
+        user.setRoles(Collections.singleton(roleDAO.findRole(id)));
+        userService.save(user);
+        return "redirect:/admin";
     }
 
     @GetMapping("user-delete/{id}")
@@ -37,28 +47,9 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/user-update/{id}")
-    public String updateUserForm(@PathVariable("id") Long id, Model model){
-        User user = userService.findById(id);
-        model.addAttribute("user", user);
-        userService.deleteById(id);
-        return "user-update";
-    }
-
-    @PostMapping("/user-update")
-    public String updateUser(User user){
-        userService.save(user);
-        return "redirect:/admin";
-    }
-
-    @GetMapping("/user-create")
-    public String createUserForm(User user,Model model){
-        model.addAttribute("roles",roleDAO.findAllRole());
-        return "user-create";
-    }
-
-    @PostMapping("/user-create")
-    public String createUser(@RequestParam("listRole")Long id, User user){
+    @PostMapping("updateuser/{id}")
+    public String updateUser(@RequestParam("listRole1") Long id, User user){
+        System.out.println(user.getId());
         user.setRoles(Collections.singleton(roleDAO.findRole(id)));
         userService.save(user);
         return "redirect:/admin";

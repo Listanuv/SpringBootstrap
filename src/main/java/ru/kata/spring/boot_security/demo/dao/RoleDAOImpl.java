@@ -16,6 +16,7 @@ public class RoleDAOImpl implements RoleDAO{
     public List<Role> findAllRole() {
         return roleRepository.findAll();
     }
+    @Override
     public Role findRole(Long id){
         return roleRepository.findById(id).get();
     }

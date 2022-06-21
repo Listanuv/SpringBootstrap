@@ -26,7 +26,7 @@ public class User implements UserDetails{
     private String username;
     @Column
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public User(String name, String lastName, int age, String username, String password, Set<Role> roles) {
@@ -42,6 +42,11 @@ public class User implements UserDetails{
         return roles;
     }
 
+    public String getRole() {
+        StringBuilder sb=new StringBuilder();
+        roles.forEach(e->sb.append(e.getRole()).append(" "));
+        return sb.toString();
+    }
     public User() {
     }
 
