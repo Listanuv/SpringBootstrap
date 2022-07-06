@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserDAO userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
 
     @GetMapping("/user")
